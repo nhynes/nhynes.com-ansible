@@ -1,0 +1,11 @@
+---
+- name: Clone dotfiles
+  git: repo={{ dotfile_repo }} dest={{ dotfile_dir }} depth=1
+  become_user: nhynes
+
+- name: Link dotfiles
+  file: src={{ dotfile_dir }}/{{ item[1] }} dest=~/{{ item[1].rstrip('~') }} state=link force=yes
+  become_user: "{{ item[0] }}"
+  with_nested:
+    - [ 'nhynes', 'root' ]
+    - "{{ dotfiles }}"

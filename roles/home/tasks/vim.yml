@@ -1,0 +1,17 @@
+---
+- name: Install Vim
+  yum: name=vim-enhanced state=latest
+
+- name: Create nhynes/.vim dirs
+  file: path=/home/nhynes/.vim/swap/ state=directory owner=nhynes group=nhynes
+
+- name: Link nhynes/.vim to root/.vim
+  file: src=/home/nhynes/.vim dest=/root/.vim state=link
+
+- name: Install Vundle
+  git: repo=https://github.com/VundleVim/Vundle.vim.git dest=~/.vim/bundle/Vundle.vim depth=1
+  become_user: nhynes
+
+- name: Install Vim plugins
+  shell: vim -e -c PluginUpdate -c qa! || true creates=~/.vim/bundle/vim-colors-solarized
+  become_user: nhynes

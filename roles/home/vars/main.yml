@@ -1,0 +1,4 @@
+---
+dotfile_repo: "https://github.com/nhynes/ze-confs.git"
+dotfile_dir: /home/nhynes/dotfiles
+dotfiles: [ '.zshrc', '.vimrc', '.gitconfig', '.gitignore~' ]
