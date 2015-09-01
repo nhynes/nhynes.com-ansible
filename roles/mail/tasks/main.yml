@@ -1,0 +1,12 @@
+---
+- name: Set hostname
+  hostname: name=nhynes.com
+
+- name: Add hostname to /etc/hosts
+  lineinfile: dest=/etc/hosts line='127.0.0.1 nhynes.com' state=present
+
+- name: Add Maildir to /etc/skel
+  file: path=/etc/skel/Maildir state=directory mode=0700
+
+- include: dovecot.yml
+- include: postfix.yml

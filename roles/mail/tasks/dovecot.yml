@@ -1,0 +1,11 @@
+---
+- name: Install Dovecot
+  yum: name=dovecot state=latest
+
+- name: Install Dovecot conf files
+  copy: src=dovecot/ dest=/etc/dovecot
+  notify:
+    - restart dovecot
+
+- name: Start Dovecot
+  service: name=dovecot state=started enabled=yes

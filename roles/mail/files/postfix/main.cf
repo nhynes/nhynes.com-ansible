@@ -1,0 +1,82 @@
+# LOCAL PATHNAME INFORMATION
+
+queue_directory = /var/spool/postfix
+command_directory = /usr/sbin
+daemon_directory = /usr/libexec/postfix
+data_directory = /var/lib/postfix
+
+# QUEUE AND PROCESS OWNERSHIP
+
+mail_owner = postfix
+
+# INTERNET HOST AND DOMAIN NAMES
+
+myhostname = nhynes.com
+
+# RECEIVING MAIL
+
+inet_interfaces = all
+inet_protocols = all
+
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+
+# TRUST AND RELAY CONTROL
+
+mynetworks = 0.0.0.0/0
+
+# TLS
+
+smtpd_tls_cert_file = /etc/pki/tls/certs/nhynes.com.pem
+smtpd_tls_key_file = /etc/pki/tls/private/nhynes.com.key
+
+tls_preempt_cipherlist = yes
+
+smtpd_tls_security_level = encrypt
+smtpd_tls_protocols=!SSLv2,!SSLv3
+smtpd_tls_mandatory_protocols=!SSLv2,!SSLv3
+smtpd_tls_mandatory_ciphers = high
+smtpd_tls_mandatory_exclude_ciphers = aNULL,MD5,3DES
+smtpd_tls_session_cache_database = btree:${queue_directory}/smtpd_scache
+
+smtp_tls_security_level = encrypt
+smtp_tls_protocols=!SSLv2,!SSLv3
+smtp_tls_mandatory_protocols=!SSLv2,!SSLv3
+smtp_tls_session_cache_database = btree:${queue_directory}/smtp_scache
+
+# AUTHENTICATION
+
+smtpd_sasl_type = dovecot
+smtpd_sasl_path = private/auth
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_sasl_authenticated, reject_unauth_destination
+
+# Not low-hanging
+
+disable_vrfy_command = yes
+
+# ALIAS DATABASE
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+
+# DELIVERY TO MAILBOX
+
+home_mailbox = Maildir/
+
+# DEBUGGING CONTROL
+
+debug_peer_level = 2
+debugger_command =
+	 PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
+	 ddd $daemon_directory/$process_name $process_id & sleep 5
+
+# INSTALL-TIME CONFIGURATION INFORMATION
+
+sendmail_path = /usr/sbin/sendmail.postfix
+newaliases_path = /usr/bin/newaliases.postfix
+mailq_path = /usr/bin/mailq.postfix
+setgid_group = postdrop
+html_directory = no
+manpage_directory = /usr/share/man
+sample_directory = /usr/share/doc/postfix-2.6.6/samples
+readme_directory = /usr/share/doc/postfix-2.6.6/README_FILES

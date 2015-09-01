@@ -3,12 +3,17 @@
   roles:
     - common
 
-- name: install home environment
-  hosts: home
+- name: set up and run mailserver
+  hosts: mail
   roles:
-    - home
+    - mail
 
 - name: set up and run nhynes.com
   hosts: web
   roles:
     - web
+
+- name: install home environment
+  hosts: home
+  roles:
+    - home

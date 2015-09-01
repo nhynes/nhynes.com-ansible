@@ -1,0 +1,14 @@
+---
+- name: Install Postfix
+  yum: name=postfix state=latest
+
+- name: Remove Sendmail
+  yum: name=sendmail state=absent
+
+- name: Install Postfix conf files
+  copy: src=postfix/ dest=/etc/postfix
+  notify:
+    - restart postfix
+
+- name: Start Postfix
+  service: name=postfix state=started enabled=yes
