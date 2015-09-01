@@ -1,0 +1,6 @@
+---
+- name: Copy SSL public key
+  copy: src=nhynes.com.pem dest=/etc/pki/tls/certs/nhynes.com.pem
+
+- name: Copy private key
+  copy: content={{ nhynes_com_key }} dest=/etc/pki/tls/private/nhynes.com.key mode=600
