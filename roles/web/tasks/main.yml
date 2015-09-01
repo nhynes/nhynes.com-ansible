@@ -1,0 +1,18 @@
+---
+- name: Install Nginx
+  yum: name=nginx state=latest
+
+- name: Create nginx user
+  user: name=nginx shell=/sbin/nologin system=yes createhome=no
+
+- name: Clone nhynes.com
+  git: repo=https://github.com/nhynes/nhynes.com dest=/srv/nhynes.com depth=1
+
+- name: Assign permissions to nhynes.com repo
+  file: path=/srv/nhynes.com state=directory owner=nhynes group=nginx mode=g+r recurse=yes
+
+- name: Link nhynes.com/nginx.conf to /etc/nginx.conf
+  file: src=/srv/nhynes.com/nginx.conf dest=/etc/nginx/nginx.conf state=link force=yes
+
+- name: Start nginx
+  service: name=nginx state=started enabled=yes

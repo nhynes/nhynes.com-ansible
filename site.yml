@@ -7,3 +7,8 @@
   hosts: home
   roles:
     - home
+
+- name: set up and run nhynes.com
+  hosts: web
+  roles:
+    - web
