@@ -8,8 +8,12 @@
 - name: Assign permissions to nhynes.com repo
   file: path=/srv/nhynes.com state=directory group=nginx mode=g+r recurse=yes
 
-- name: Link nhynes.com/nginx.conf to /etc/nginx.conf
-  file: src=/srv/nhynes.com/nginx.conf dest=/etc/nginx/nginx.conf state=link force=yes
+- name: Add nhynes.com to Nginx sites-available
+  file: src=/srv/nhynes.com/nginx.conf dest=/etc/nginx/sites-available/nhynes.com state=link
+  notify:
+    - restart nginx
 
-- name: Start nginx
-  service: name=nginx state=started enabled=yes
+- name: Link nhynes.com into Nginx sites-enabled
+  file: src=/etc/nginx/sites-available/nhynes.com dest=/etc/nginx/sites-enabled/nhynes.com state=link
+  notify:
+    - restart nginx
