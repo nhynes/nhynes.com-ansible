@@ -8,6 +8,11 @@
   roles:
     - mail
 
+- name: set up and run dav.nhynes.com
+  hosts: dav
+  roles:
+    - dav
+
 - name: set up and run nhynes.com
   hosts: web
   roles:

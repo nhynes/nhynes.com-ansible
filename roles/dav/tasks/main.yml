@@ -1,0 +1,17 @@
+---
+- name: Clone RadiCALe
+  git: repo=https://github.com/Kozea/Radicale.git dest=/srv/radicale depth=1
+
+- name: Create RadiCALe conf dir
+  file: path=/etc/radicale state=directory
+
+- name: Install RadiCALe conf
+  copy: src=radicale.conf dest=/etc/radicale/config
+
+- name: Install RadiCALe logging conf
+  copy: src=radicale_logging.conf dest=/etc/radicale/logging
+
+- name: Add dav.nhynes.com to /etc/hosts
+  lineinfile: dest=/etc/hosts line='127.0.0.1 dav.nhynes.com' state=present
+
+# TODO: figure out how to auto-start radicale
