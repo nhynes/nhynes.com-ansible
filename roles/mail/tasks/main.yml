@@ -8,5 +8,5 @@
 - name: Add Maildir to /etc/skel
   file: path=/etc/skel/Maildir state=directory mode=0700
 
-- include: dovecot.yml
 - include: postfix.yml
+- include: dovecot.yml
